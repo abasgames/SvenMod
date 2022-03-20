@@ -20,6 +20,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ./SvenMod.sln
     - name: Build
-      run: dotnet build ./SvenMod.vcxproj --no-restore
+      run: dotnet build ./SvenMod.sln --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
