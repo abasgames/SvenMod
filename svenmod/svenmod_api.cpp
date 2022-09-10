@@ -1,6 +1,12 @@
 #include <ISvenModAPI.h>
 #include <svenmod_version.h>
 
+#include "svenmod.h"
+
+//-----------------------------------------------------------------------------
+// SvenMod's API
+//-----------------------------------------------------------------------------
+
 class CSvenModAPI : public ISvenModAPI
 {
 public:
@@ -14,7 +20,7 @@ public:
 	virtual int						GetProtocolVersion();
 	virtual client_version_s		*GetClientVersion();
 
-	virtual int						GetClientState();
+	virtual client_state_t			GetClientState();
 
 	virtual const char				*GetBaseDirectory();
 
@@ -41,8 +47,11 @@ public:
 	virtual ICvar					*CVar();
 	virtual IHooks					*Hooks();
 
+	virtual IClient					*Client();
+	virtual IClientWeapon			*ClientWeapon();
 	virtual IPlayerUtils			*PlayerUtils();
 	virtual IInventory				*Inventory();
+	virtual IUtils					*Utils();
 
 	//-----------------------------------------------------------------------------
 	// Game's API
@@ -87,36 +96,26 @@ void CSvenModAPI::GetVersion(int *major, int *minor)
 
 int CSvenModAPI::GetEngineBuild()
 {
-	extern int g_iEngineBuild;
-
 	return g_iEngineBuild;
 }
 
 int CSvenModAPI::GetProtocolVersion()
 {
-	extern int g_iProtocolVersion;
-
 	return g_iProtocolVersion;
 }
 
 client_version_s *CSvenModAPI::GetClientVersion()
 {
-	extern client_version_s g_ClientVersion;
-
 	return &g_ClientVersion;
 }
 
-int CSvenModAPI::GetClientState()
+client_state_t CSvenModAPI::GetClientState()
 {
-	extern int *g_pClientState;
-
-	return *g_pClientState;
+	return static_cast<client_state_t >(*g_pClientState);
 }
 
 const char *CSvenModAPI::GetBaseDirectory()
 {
-	extern const char *g_pszBaseDirectory;
-
 	return g_pszBaseDirectory;
 }
 
@@ -170,8 +169,6 @@ IPluginHelpers *CSvenModAPI::PluginHelpers()
 
 modules_s *CSvenModAPI::Modules()
 {
-	extern modules_s g_Modules;
-
 	return &g_Modules;
 }
 
@@ -185,6 +182,16 @@ IHooks *CSvenModAPI::Hooks()
 	return g_pHooks;
 }
 
+IClient *CSvenModAPI::Client()
+{
+	return g_pClient;
+}
+
+IClientWeapon *CSvenModAPI::ClientWeapon()
+{
+	return g_pClientWeapon;
+}
+
 IPlayerUtils *CSvenModAPI::PlayerUtils()
 {
 	return g_pPlayerUtils;
@@ -193,6 +200,11 @@ IPlayerUtils *CSvenModAPI::PlayerUtils()
 IInventory *CSvenModAPI::Inventory()
 {
 	return g_pInventory;
+}
+
+IUtils *CSvenModAPI::Utils()
+{
+	return g_pUtils;
 }
 
 //-----------------------------------------------------------------------------

@@ -143,8 +143,11 @@ bool CPlugin::Load(const char *pszFileName, bool bGlobalLoad)
 
 		if ( !m_pPlugin )
 		{
-			Warning("[SvenMod] Could not get IClientPlugin interface from plugin \"%s\"\n", pszFileName);
-			LogWarning("Could not get IClientPlugin interface from plugin \"%s\".\n", pszFileName);
+			Warning("[SvenMod] Could not get \"IClientPlugin\" interface from the plugin \"%s\"\n", pszFileName);
+			Warning("[SvenMod] The plugin \"%s\" may have a newer version of the interface. In this case, get updated version of SvenMod here: https://github.com/sw1ft747/svenmod\n", pszFileName);
+
+			LogWarning("Could not get \"IClientPlugin\" interface from the plugin \"%s\".\n", pszFileName);
+			LogWarning("[SvenMod] The plugin \"%s\" may have a newer version of the interface. In this case, get updated version of SvenMod here: https://github.com/sw1ft747/svenmod\n", pszFileName);
 
 			Sys_UnloadModule(m_hPluginModule);
 			return false;
@@ -154,7 +157,7 @@ bool CPlugin::Load(const char *pszFileName, bool bGlobalLoad)
 
 		if (APIver.major_version != SVENMOD_API_MAJOR_VERSION)
 		{
-			Sys_ErrorMessage("[SvenMod] API version of plugin \"%s\" differs with SvenMod's API\n\nSvenMod's version of API: %s\nPlugin's version of API: %d.%d\n\nCheck \"svenmod.log\" for details",
+			Sys_ErrorMessage("[SvenMod] API version of the plugin \"%s\" differs with SvenMod's API\n\nAPI version of SvenMod: %s\nAPI version of the plugin: %d.%d\n\nCheck \"svenmod.log\" for details",
 							 m_pPlugin->GetName(),
 							 SVENMOD_API_VERSION_STRING,
 							 APIver.major_version,
@@ -162,15 +165,15 @@ bool CPlugin::Load(const char *pszFileName, bool bGlobalLoad)
 
 			if (APIver.major_version > SVENMOD_API_MAJOR_VERSION)
 			{
-				LogError("Your version of SvenMod is outdated, update it here: https://github.com/sw1ft747/SvenMod\n");
+				LogError("Your version of SvenMod is outdated, update it here: https://github.com/sw1ft747/svenmod\n");
 
-				Sys_Error("[SvenMod] SvenMod uses outdated version of API\nPlease, update SvenMod here: https://github.com/sw1ft747/SvenMod");
+				Sys_Error("[SvenMod] SvenMod uses outdated version of API\n\nUpdate SvenMod here: https://github.com/sw1ft747/svenmod");
 			}
 			else
 			{
 				LogError("Plugin \"%s\" uses outdated version of API, update it here: %s\n", m_pPlugin->GetName(), m_pPlugin->GetURL());
 
-				Sys_Error("[SvenMod] Plugin \"%s\" uses outdated version of API\nPlease, download newer version of the plugin here: %s\n\nOtherwise, ask author (%s) to update it",
+				Sys_Error("[SvenMod] Plugin \"%s\" uses outdated version of API\n\nDownload newer version of the plugin here: %s\n\nOtherwise, ask the author (%s) to update it",
 								 m_pPlugin->GetName(),
 								 m_pPlugin->GetURL(),
 								 m_pPlugin->GetAuthor());
@@ -203,8 +206,8 @@ bool CPlugin::Load(const char *pszFileName, bool bGlobalLoad)
 	}
 	else
 	{
-		Warning("[SvenMod] Could not get CreateInterface factory from plugin \"%s\"\n", pszFileName);
-		LogWarning("Could not get CreateInterface factory from plugin \"%s\".\n", pszFileName);
+		Warning("[SvenMod] Could not get \"CreateInterface\" factory from plugin \"%s\"\n", pszFileName);
+		LogWarning("Could not get \"CreateInterface\" factory from plugin \"%s\".\n", pszFileName);
 
 		Sys_UnloadModule(m_hPluginModule);
 	}
@@ -277,7 +280,7 @@ int CPluginsManager::PluginsCount()
 
 void CPluginsManager::LoadPlugins()
 {
-	g_bAutoPauseDetours = true;
+	Assert( m_Plugins.size() == 0 );
 
 	PLUGIN_LOAD_RESULT loadResult;
 	plugins_s *pPluginsBase = g_PluginsLoader.LoadFromFile("svenmod/plugins.txt", &loadResult);
@@ -288,10 +291,13 @@ void CPluginsManager::LoadPlugins()
 	}
 	else if (loadResult == LOAD_RESULT_FAILED)
 	{
+		Warning("[SvenMod] Failed to parse plugin-list file \"../svenmod/plugins.txt\". Reason: %s (%d).\n", g_PluginsLoader.GetLastErrorMessage(), g_PluginsLoader.GetLastErrorLine());
 		LogWarning("Failed to parse plugin-list file \"../svenmod/plugins.txt\". Reason: %s (%d).\n", g_PluginsLoader.GetLastErrorMessage(), g_PluginsLoader.GetLastErrorLine());
 	}
 	else
 	{
+		g_bAutoPauseDetours = true;
+
 		for (plugins_s *pPlugin = pPluginsBase; pPlugin; pPlugin = pPlugin->next)
 		{
 			if (pPlugin->load)
@@ -299,16 +305,16 @@ void CPluginsManager::LoadPlugins()
 				LoadPlugin(pPlugin->name, true);
 			}
 		}
-	}
 
-	g_PluginsLoader.FreePlugins(pPluginsBase);
+		g_PluginsLoader.FreePlugins(pPluginsBase);
 
-	g_bAutoPauseDetours = false;
-	DetoursAPI()->UnpauseAllDetours(); // Attach detours
+		g_bAutoPauseDetours = false;
+		DetoursAPI()->UnpauseAllDetours(); // Attach detours
 
-	for (int i = 0; i < m_Plugins.size(); i++)
-	{
-		m_Plugins[i]->GetCallback()->PostLoad(true);
+		for (int i = 0; i < m_Plugins.size(); i++)
+		{
+			m_Plugins[i]->GetCallback()->PostLoad(true);
+		}
 	}
 }
 
@@ -438,8 +444,7 @@ bool CPluginsManager::UnpausePlugins()
 
 void CPluginsManager::PrintPlugins()
 {
-	Msg("[SvenMod] Loaded plugins:\n");
-	Msg("----------------------------------\n");
+	Msg("--------- Loaded Plugins ---------\n");
 
 	FOR_EACH_PLUGIN(i)
 	{
@@ -456,8 +461,7 @@ void CPluginsManager::PrintPluginInfo(int index)
 		CPlugin *pPlugin = m_Plugins[index];
 		auto APIver = pPlugin->GetCallback()->GetAPIVersion();
 
-		Msg("[SvenMod] Plugin info:\n");
-		Msg("----------------------------------\n");
+		Msg("----------- Plugin Info ----------\n");
 
 		Msg("* Name:              %s\n", pPlugin->GetCallback()->GetName());
 		Msg("* Author:            %s\n", pPlugin->GetCallback()->GetAuthor());

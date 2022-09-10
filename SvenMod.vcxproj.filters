@@ -453,7 +453,7 @@
     <ClInclude Include="public\IClientHooks.h">
       <Filter>SvenMod\public</Filter>
     </ClInclude>
-    <ClInclude Include="svenmod\client_hooks_handler.h">
+    <ClInclude Include="svenmod\game_hooks.h">
       <Filter>SvenMod\svenmod</Filter>
     </ClInclude>
     <ClInclude Include="public\IHooks.h">
@@ -462,7 +462,7 @@
     <ClInclude Include="public\hl_sdk\common\usermsg.h">
       <Filter>SvenMod\public\HL SDK\common</Filter>
     </ClInclude>
-    <ClInclude Include="public\usermessages.h">
+    <ClInclude Include="public\messagebuffer.h">
       <Filter>SvenMod\public</Filter>
     </ClInclude>
     <ClInclude Include="public\gameui\IGameUI.h">
@@ -486,10 +486,7 @@
     <ClInclude Include="public\IVGameUI.h">
       <Filter>SvenMod\public</Filter>
     </ClInclude>
-    <ClInclude Include="svenmod\cvar_sm.h">
-      <Filter>SvenMod\svenmod</Filter>
-    </ClInclude>
-    <ClInclude Include="svenmod\dbg_sm.h">
+    <ClInclude Include="svenmod\cvar.h">
       <Filter>SvenMod\svenmod</Filter>
     </ClInclude>
     <ClInclude Include="public\gameui\gameconsole.h">
@@ -509,6 +506,51 @@
     </ClInclude>
     <ClInclude Include="public\math\vector.h">
       <Filter>SvenMod\public\math</Filter>
+    </ClInclude>
+    <ClInclude Include="public\IUtils.h">
+      <Filter>SvenMod\public</Filter>
+    </ClInclude>
+    <ClInclude Include="svenmod\utils.h">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClInclude>
+    <ClInclude Include="svenmod\vgui_iface.h">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClInclude>
+    <ClInclude Include="svenmod\gameui_iface.h">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClInclude>
+    <ClInclude Include="svenmod\inventory.h">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClInclude>
+    <ClInclude Include="svenmod\client.h">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClInclude>
+    <ClInclude Include="svenmod\client_weapon.h">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClInclude>
+    <ClInclude Include="public\IClient.h">
+      <Filter>SvenMod\public</Filter>
+    </ClInclude>
+    <ClInclude Include="public\IClientWeapon.h">
+      <Filter>SvenMod\public</Filter>
+    </ClInclude>
+    <ClInclude Include="public\hl_sdk\common\protocol.h">
+      <Filter>SvenMod\public\HL SDK\common</Filter>
+    </ClInclude>
+    <ClInclude Include="svenmod\svenmod.h">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClInclude>
+    <ClInclude Include="svenmod\patterns.h">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClInclude>
+    <ClInclude Include="public\hl_sdk\common\netmsg.h">
+      <Filter>SvenMod\public\HL SDK\common</Filter>
+    </ClInclude>
+    <ClInclude Include="svenmod\gamedata_finder.h">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClInclude>
+    <ClInclude Include="public\hl_sdk\common\sizebuf.h">
+      <Filter>SvenMod\public\HL SDK\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -551,9 +593,6 @@
     <ClCompile Include="svenmod\svenmod.cpp">
       <Filter>SvenMod\svenmod</Filter>
     </ClCompile>
-    <ClCompile Include="svenmod\dbg.cpp">
-      <Filter>SvenMod\svenmod</Filter>
-    </ClCompile>
     <ClCompile Include="svenmod\plugins_loader.cpp">
       <Filter>SvenMod\svenmod</Filter>
     </ClCompile>
@@ -587,13 +626,13 @@
     <ClCompile Include="shared\mathlib.cpp">
       <Filter>SvenMod\shared</Filter>
     </ClCompile>
-    <ClCompile Include="svenmod\client_hooks_handler.cpp">
+    <ClCompile Include="svenmod\game_hooks.cpp">
       <Filter>SvenMod\svenmod</Filter>
     </ClCompile>
     <ClCompile Include="svenmod\hooks.cpp">
       <Filter>SvenMod\svenmod</Filter>
     </ClCompile>
-    <ClCompile Include="shared\usermessages.cpp">
+    <ClCompile Include="shared\messagebuffer.cpp">
       <Filter>SvenMod\shared</Filter>
     </ClCompile>
     <ClCompile Include="svenmod\gameui_iface.cpp">
@@ -603,6 +642,21 @@
       <Filter>SvenMod\svenmod</Filter>
     </ClCompile>
     <ClCompile Include="svenmod\inventory.cpp">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClCompile>
+    <ClCompile Include="svenmod\utils.cpp">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClCompile>
+    <ClCompile Include="svenmod\client.cpp">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClCompile>
+    <ClCompile Include="svenmod\client_weapon.cpp">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClCompile>
+    <ClCompile Include="svenmod\patterns.cpp">
+      <Filter>SvenMod\svenmod</Filter>
+    </ClCompile>
+    <ClCompile Include="svenmod\gamedata_finder.cpp">
       <Filter>SvenMod\svenmod</Filter>
     </ClCompile>
   </ItemGroup>

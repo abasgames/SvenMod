@@ -1,60 +1,7 @@
-#include <IVGUI.h>
 #include <ISvenModAPI.h>
-
 #include <sys.h>
 
-class CVGUI : public IVGUI
-{
-public:
-	CVGUI();
-
-	virtual void Init();
-
-	virtual vgui::IVGui *VGui();
-
-	virtual IBaseUI *BaseUI();
-	virtual IGameUIFuncs *GameUIFuncs();
-	virtual IEngineSurface *EngineSurface();
-
-	virtual vgui::IEngineVGui *EngineVGui();
-
-	virtual vgui::ISurface *Surface();
-	virtual vgui::ISchemeManager *SchemeManager();
-	virtual vgui::ILocalize *Localize();
-
-	virtual vgui::IPanel *Panel();
-
-	virtual vgui::IInput *Input();
-	virtual vgui::IInputInternal *InputInternal();
-
-	virtual vgui::ISystem *System();
-
-	virtual vgui::IKeyValues *KeyValues();
-
-private:
-	bool m_bInitialized;
-
-	vgui::IVGui *m_pVGui;
-
-	IBaseUI *m_pBaseUI;
-	IGameUIFuncs *m_pGameUIFuncs;
-	IEngineSurface *m_pEngineSurface;
-
-	vgui::IEngineVGui *m_pEngineVGui;
-
-	vgui::ISurface *m_pSurface;
-	vgui::ISchemeManager *m_pSchemeManager;
-	vgui::ILocalize *m_pLocalize;
-
-	vgui::IPanel *m_pPanel;
-
-	vgui::IInput *m_pInput;
-	vgui::IInputInternal *m_pInputInternal;
-
-	vgui::ISystem *m_pSystem;
-
-	vgui::IKeyValues *m_pKeyValues;
-};
+#include "vgui_iface.h"
 
 //-----------------------------------------------------------------------------
 // CVGUI implementation
@@ -62,8 +9,6 @@ private:
 
 CVGUI::CVGUI()
 {
-	m_bInitialized = false;
-
 	m_pVGui = NULL;
 	m_pBaseUI = NULL;
 	m_pGameUIFuncs = NULL;
@@ -81,9 +26,6 @@ CVGUI::CVGUI()
 
 void CVGUI::Init()
 {
-	if (m_bInitialized)
-		return;
-
 	CreateInterfaceFn pfnVGUI2Factory = Sys_GetFactory( SvenModAPI()->Modules()->VGUI2 );
 
 	if ( !pfnVGUI2Factory )
@@ -102,7 +44,7 @@ void CVGUI::Init()
 
 	m_pBaseUI = (IBaseUI *)pfnHardwareFactory(BASEUI_INTERFACE_VERSION, NULL);
 
-	if (!m_pBaseUI)
+	if ( !m_pBaseUI )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "IBaseUI");
 		return;
@@ -110,7 +52,7 @@ void CVGUI::Init()
 
 	m_pGameUIFuncs = (IGameUIFuncs *)pfnHardwareFactory(ENGINE_GAMEUIFUNCS_INTERFACE_VERSION, NULL);
 
-	if (!m_pGameUIFuncs)
+	if ( !m_pGameUIFuncs )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "IGameUIFuncs");
 		return;
@@ -118,7 +60,7 @@ void CVGUI::Init()
 
 	m_pEngineSurface = (IEngineSurface *)pfnHardwareFactory(ENGINE_SURFACE_INTERFACE_VERSION, NULL);
 
-	if (!m_pEngineSurface)
+	if ( !m_pEngineSurface )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "IEngineSurface");
 		return;
@@ -126,7 +68,7 @@ void CVGUI::Init()
 
 	m_pEngineVGui = (vgui::IEngineVGui *)pfnHardwareFactory(VENGINE_VGUI_VERSION, NULL);
 
-	if (!m_pEngineVGui)
+	if ( !m_pEngineVGui )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "IEngineVGui");
 		return;
@@ -134,7 +76,7 @@ void CVGUI::Init()
 
 	m_pVGui = (vgui::IVGui *)pfnVGUI2Factory(VGUI_IVGUI_INTERFACE_VERSION, NULL);
 
-	if (!m_pVGui)
+	if ( !m_pVGui )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "IVGui");
 		return;
@@ -142,7 +84,7 @@ void CVGUI::Init()
 
 	m_pSurface = (vgui::ISurface *)pfnHardwareFactory(VGUI_SURFACE_INTERFACE_VERSION, NULL);
 
-	if (!m_pSurface)
+	if ( !m_pSurface )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "ISurface");
 		return;
@@ -150,7 +92,7 @@ void CVGUI::Init()
 
 	m_pSchemeManager = (vgui::ISchemeManager *)pfnVGUI2Factory(VGUI_SCHEME_INTERFACE_VERSION, NULL);
 
-	if (!m_pSchemeManager)
+	if ( !m_pSchemeManager )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "ISchemeManager");
 		return;
@@ -158,7 +100,7 @@ void CVGUI::Init()
 
 	m_pLocalize = (vgui::ILocalize *)pfnVGUI2Factory(VGUI_LOCALIZE_INTERFACE_VERSION, NULL);
 
-	if (!m_pLocalize)
+	if ( !m_pLocalize )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "ILocalize");
 		return;
@@ -166,7 +108,7 @@ void CVGUI::Init()
 
 	m_pPanel = (vgui::IPanel *)pfnVGUI2Factory(VGUI_PANEL_INTERFACE_VERSION, NULL);
 
-	if (!m_pPanel)
+	if ( !m_pPanel )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "IPanel");
 		return;
@@ -174,7 +116,7 @@ void CVGUI::Init()
 
 	m_pInput = (vgui::IInput *)pfnVGUI2Factory(VGUI_INPUT_INTERFACE_VERSION, NULL);
 
-	if (!m_pInput)
+	if ( !m_pInput )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "IInput");
 		return;
@@ -182,7 +124,7 @@ void CVGUI::Init()
 
 	m_pInputInternal = (vgui::IInputInternal *)pfnVGUI2Factory(VGUI_INPUTINTERNAL_INTERFACE_VERSION, NULL);
 
-	if (!m_pInputInternal)
+	if ( !m_pInputInternal )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "IInputInternal");
 		return;
@@ -190,7 +132,7 @@ void CVGUI::Init()
 
 	m_pSystem = (vgui::ISystem *)pfnVGUI2Factory(VGUI_SYSTEM_INTERFACE_VERSION, NULL);
 
-	if (!m_pSystem)
+	if ( !m_pSystem )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "ISystem");
 		return;
@@ -198,13 +140,11 @@ void CVGUI::Init()
 
 	m_pKeyValues = (vgui::IKeyValues *)pfnVGUI2Factory(VGUI_KEYVALUES_INTERFACE_VERSION, NULL);
 
-	if (!m_pKeyValues)
+	if ( !m_pKeyValues )
 	{
 		Sys_Error("[SvenMod] Failed to get %s interface", "IKeyValues");
 		return;
 	}
-
-	m_bInitialized = true;
 }
 
 vgui::IVGui *CVGUI::VGui()

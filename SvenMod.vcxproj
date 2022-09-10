@@ -65,17 +65,20 @@
     <ClInclude Include="public\hl_sdk\common\in_buttons.h" />
     <ClInclude Include="public\hl_sdk\common\ivoicetweak.h" />
     <ClInclude Include="public\hl_sdk\common\netadr.h" />
+    <ClInclude Include="public\hl_sdk\common\netmsg.h" />
     <ClInclude Include="public\hl_sdk\common\net_api.h" />
     <ClInclude Include="public\hl_sdk\common\particledef.h" />
     <ClInclude Include="public\hl_sdk\common\Platform.h" />
     <ClInclude Include="public\hl_sdk\common\PlatformHeaders.h" />
     <ClInclude Include="public\hl_sdk\common\pmtrace.h" />
+    <ClInclude Include="public\hl_sdk\common\protocol.h" />
     <ClInclude Include="public\hl_sdk\common\qfont.h" />
     <ClInclude Include="public\hl_sdk\common\ref_params.h" />
     <ClInclude Include="public\hl_sdk\common\r_efx.h" />
     <ClInclude Include="public\hl_sdk\common\r_studioint.h" />
     <ClInclude Include="public\hl_sdk\common\screenfade.h" />
     <ClInclude Include="public\hl_sdk\common\Sequence.h" />
+    <ClInclude Include="public\hl_sdk\common\sizebuf.h" />
     <ClInclude Include="public\hl_sdk\common\studio_event.h" />
     <ClInclude Include="public\hl_sdk\common\triangleapi.h" />
     <ClInclude Include="public\hl_sdk\common\usercmd.h" />
@@ -101,7 +104,9 @@
     <ClInclude Include="public\hl_sdk\pm_shared\pm_movevars.h" />
     <ClInclude Include="public\hl_sdk\pm_shared\pm_shared.h" />
     <ClInclude Include="public\hook_codes.h" />
+    <ClInclude Include="public\IClient.h" />
     <ClInclude Include="public\IClientHooks.h" />
+    <ClInclude Include="public\IClientWeapon.h" />
     <ClInclude Include="public\IInventory.h" />
     <ClInclude Include="public\IClientPlugin.h" />
     <ClInclude Include="public\ICommandLine.h" />
@@ -119,6 +124,7 @@
     <ClInclude Include="public\IPluginHelpers.h" />
     <ClInclude Include="public\IRegistry.h" />
     <ClInclude Include="public\ISvenModAPI.h" />
+    <ClInclude Include="public\IUtils.h" />
     <ClInclude Include="public\IVGameUI.h" />
     <ClInclude Include="public\IVGUI.h" />
     <ClInclude Include="public\IVideoMode.h" />
@@ -137,7 +143,7 @@
     <ClInclude Include="public\udis86\include\types.h" />
     <ClInclude Include="public\udis86\include\udint.h" />
     <ClInclude Include="public\udis86\udis86.h" />
-    <ClInclude Include="public\usermessages.h" />
+    <ClInclude Include="public\messagebuffer.h" />
     <ClInclude Include="public\vgui2\IBaseUI.h" />
     <ClInclude Include="public\vgui2\IClientPanel.h" />
     <ClInclude Include="public\vgui2\IClientVGUI.h" />
@@ -157,11 +163,19 @@
     <ClInclude Include="public\vgui2\VGUI2.h" />
     <ClInclude Include="public\vgui2\VGuiVertex.h" />
     <ClInclude Include="shared\ISvenMod.h" />
-    <ClInclude Include="svenmod\client_hooks_handler.h" />
-    <ClInclude Include="svenmod\cvar_sm.h" />
-    <ClInclude Include="svenmod\dbg_sm.h" />
+    <ClInclude Include="svenmod\client.h" />
+    <ClInclude Include="svenmod\client_weapon.h" />
+    <ClInclude Include="svenmod\gamedata_finder.h" />
+    <ClInclude Include="svenmod\gameui_iface.h" />
+    <ClInclude Include="svenmod\game_hooks.h" />
+    <ClInclude Include="svenmod\cvar.h" />
+    <ClInclude Include="svenmod\inventory.h" />
+    <ClInclude Include="svenmod\patterns.h" />
     <ClInclude Include="svenmod\plugins_manager.h" />
     <ClInclude Include="svenmod\plugins_loader.h" />
+    <ClInclude Include="svenmod\svenmod.h" />
+    <ClInclude Include="svenmod\utils.h" />
+    <ClInclude Include="svenmod\vgui_iface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="public\hl_sdk\cl_dll\interpolation.cpp" />
@@ -177,23 +191,27 @@
     <ClCompile Include="shared\interface.cpp" />
     <ClCompile Include="shared\mathlib.cpp" />
     <ClCompile Include="shared\sys.cpp" />
-    <ClCompile Include="shared\usermessages.cpp" />
-    <ClCompile Include="svenmod\client_hooks_handler.cpp" />
+    <ClCompile Include="shared\messagebuffer.cpp" />
+    <ClCompile Include="svenmod\client.cpp" />
+    <ClCompile Include="svenmod\client_weapon.cpp" />
+    <ClCompile Include="svenmod\gamedata_finder.cpp" />
+    <ClCompile Include="svenmod\game_hooks.cpp" />
     <ClCompile Include="svenmod\config_manager.cpp" />
     <ClCompile Include="svenmod\console.cpp" />
     <ClCompile Include="svenmod\cvar.cpp" />
-    <ClCompile Include="svenmod\dbg.cpp" />
     <ClCompile Include="svenmod\detours_api.cpp" />
     <ClCompile Include="svenmod\gameui_iface.cpp" />
     <ClCompile Include="svenmod\hooks.cpp" />
     <ClCompile Include="svenmod\inventory.cpp" />
     <ClCompile Include="svenmod\logging_system.cpp" />
     <ClCompile Include="svenmod\memory_utils.cpp" />
+    <ClCompile Include="svenmod\patterns.cpp" />
     <ClCompile Include="svenmod\player_utils.cpp" />
     <ClCompile Include="svenmod\plugins_manager.cpp" />
     <ClCompile Include="svenmod\plugins_loader.cpp" />
     <ClCompile Include="svenmod\svenmod.cpp" />
     <ClCompile Include="svenmod\svenmod_api.cpp" />
+    <ClCompile Include="svenmod\utils.cpp" />
     <ClCompile Include="svenmod\vgui_iface.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -252,7 +270,7 @@
     <Link>
       <SubSystem>NotSet</SubSystem>
       <AdditionalLibraryDirectories>lib\public\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vgui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
@@ -272,13 +290,14 @@
       <AdditionalIncludeDirectories>svenmod\;public\;shared\</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
       <PreprocessorDefinitions>DBG_ASSERT;DBG_ASSERT_FATAL;PLATFORM_EXPORTS;LIBUDIS86_EXPORTS;SYS_UTILS_DYNAMIC_LINKED;SYS_UTILS_EXPORTS;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>lib\public\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vgui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
